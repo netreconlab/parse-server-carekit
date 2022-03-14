@@ -4,7 +4,7 @@ export default CareKitServer;
 export {
   CareKitServer,
 };*/
-const ParseAuditor = require('parse-auditor');
+const { init: ParseAuditor } = require('parse-auditor');
 
 /**
    * @function setup
