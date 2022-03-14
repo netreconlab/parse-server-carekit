@@ -10,7 +10,7 @@ const { init: ParseAuditor, audit, CONFIG_DEFAULTS } = require('parse-auditor');
 const setup = async (delayForCreatingIndexes = 3000) => {
   return setTimeout(async function() {
     await ensureClassDefaultFieldsForParseCareKit();
-    await setAuditClassLevelPermissions();
+    // await setAuditClassLevelPermissions();
     await createIndexes();
   }, delayForCreatingIndexes);
 }
