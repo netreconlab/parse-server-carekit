@@ -1,3 +1,6 @@
-const path = require('path');
-const ParseAuditor = require('parse-auditor');
+import CareKitServer from './CareKitServer';
 
+export default CareKitServer;
+export {
+    CareKitServer,
+};

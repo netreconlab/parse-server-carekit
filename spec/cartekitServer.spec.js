@@ -1,6 +1,6 @@
 'use strict';
 
-describe('test dashboard', function () {
+describe('test carekitServer', function () {
 
   it('example test', async () => {
     return;
