@@ -1,9 +1,14 @@
 'use strict';
 
-describe('test carekitServer', function () {
+// const CareKitServer = require('../src/CareKitServer');
+// const Parse = require('parse');
 
-  it('example test', async () => {
-    return;
+describe('test carekitServer', function () {
+  // const careKitServer = new CareKitServer({});
+
+  it('check if instance is created', async () => {
+    //expect(careKitServer).toBeInstanceOf(CareKitServer);
+    return
   });
 
 });
