@@ -22,7 +22,8 @@
     "src",
     "lib"
   ],
-  "dependencies": {    
+  "dependencies": {
+    "parse-auditor": "Blackburn-Labs/parse-auditor#develop"    
   },
   "devDependencies": {
     "@babel/cli": "7.17.0",
