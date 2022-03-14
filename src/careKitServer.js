@@ -9,12 +9,19 @@ const ParseAuditor = require('parse-auditor');
 /* eslint-disable-next-line no-unused-vars */
 class CareKitServer {
 
-  constructor(server, delayForCreatingIndexes = 3000) {
+  constructor(server) {
 
     this.server = server;
+  }
 
-    /* Fire after some delay to allow _User class to be created */
-    setTimeout(async function() {
+  /**
+   * @function setup
+   * @description Calls all methods needed to setup the server for CareKit.
+   * @param {integer} delayForCreatingIndexes: Fires after some delay to allow _User class to be created.
+   * @returns {Promise<Any>} The resolved promise.
+  */
+  async setup(delayForCreatingIndexes = 3000) {
+    return setTimeout(async function() {
       await this.ensureClassDefaultFieldsForParseCareKit();
       await this.setAuditClassLevelPermissions();
       await this.createIndexes();
@@ -23,7 +30,7 @@ class CareKitServer {
 
   /**
    * @function ensureClassDefaultFieldsForParseCareKit
-   * @description Creates default Parse classes and fields.
+   * @description Creates all default Parse CareKit classes and fields with restricted access.
    * @returns {Promise<Any>} The resolved promise.
   */
   async ensureClassDefaultFieldsForParseCareKit() {
@@ -312,7 +319,7 @@ class CareKitServer {
 
   /**
    * @function setAuditClassLevelPermissions
-   * @description Creates default Parse classes and fields.
+   * @description Adds an auditor to all Parse CareKit classes.
    * @returns {Promise<Any>} The resolved promise.
   */
   async setAuditClassLevelPermissions() {
@@ -333,7 +340,7 @@ class CareKitServer {
 
   /**
    * @function createIndexes
-   * @description Creates default indexes.
+   * @description Creates default indexes for Parse CareKit classes.
    * @returns {Promise<Any>} The resolved promise.
   */
   async createIndexes() {
