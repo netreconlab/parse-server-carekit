@@ -10,6 +10,7 @@
         "flowtype"
     ],
     "parserOptions": {
+        "requireConfigFile": false,
         "ecmaVersion": 6,
         "sourceType": "module"
     },
