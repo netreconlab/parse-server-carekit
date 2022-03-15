@@ -528,4 +528,5 @@ const careKitServer = module.exports = init;
 careKitServer.init = init;
 careKitServer.setup = setup;
 careKitServer.ensureClassDefaultFieldsForParseCareKit = ensureClassDefaultFieldsForParseCareKit;
+careKitServer.setAuditClassLevelPermissions = setAuditClassLevelPermissions;
 careKitServer.createIndexes = createIndexes;
