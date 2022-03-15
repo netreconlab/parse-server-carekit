@@ -521,7 +521,7 @@ const createIndexes = async () => {
 
 const init = (server) => {
   this.server = server;
-  this.setup();
+  setup();
 }
 
 const careKitServer = module.exports = init;
