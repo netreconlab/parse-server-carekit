@@ -52,6 +52,6 @@
     "start": "node ./lib/index.js"
   },
   "engines": {
-    "node": ">=12.20.0 <17"
+    "node": ">=12.20.0"
   }
 }
