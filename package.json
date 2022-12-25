@@ -22,7 +22,6 @@
     "src",
     "lib"
   ],
-  "type": "module",
   "dependencies": {
     "parse-auditor": "Blackburn-Labs/parse-auditor#develop"
   },

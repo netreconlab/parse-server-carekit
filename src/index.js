@@ -1,5 +1,5 @@
-// const { CareKitServer } = require('./CareKitServer');
-import CareKitServer from './CareKitServer';
+const { CareKitServer } = require('./CareKitServer');
+//import CareKitServer from './CareKitServer';
 
 export default CareKitServer;
 export {
