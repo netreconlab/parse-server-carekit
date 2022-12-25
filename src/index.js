@@ -1,5 +1,4 @@
-// const { init: ParseAuditor } = require('parse-auditor');
-const ParseAuditor = require('parse-auditor');
+const { init: ParseAuditor } = require('parse-auditor');
 
 /**
    * @function setup
