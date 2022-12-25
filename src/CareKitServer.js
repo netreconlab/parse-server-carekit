@@ -1,4 +1,4 @@
-const ParseAuditor = require('parse-auditor');
+const { init: ParseAuditor } = require('parse-auditor');
 
 /**
  * @class CareKitServer
