@@ -10,3 +10,10 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/netreconlab/parse-server-carekit/#license)
 
 This library makes a [Parse Server](https://github.com/parse-community/parse-server) compatable with clients using [CareKit](https://github.com/carekit-apple/CareKit) and [ParseCareKit](https://github.com/netreconlab/ParseCareKit) by adding all of the necessary Parse classes, fields, and indexes.
+
+## Usage
+```js
+const { CareKitServer } = require('parse-server-carekit');    
+let careKitServer = new CareKitServer(api, shouldAudit);
+await careKitServer.setup();
+```
