@@ -9,9 +9,11 @@ const { init: ParseAuditor } = require('parse-auditor');
 const setup = async (delayForCreatingIndexes = 3000) => {
   return setTimeout(async function() {
     await ensureClassDefaultFieldsForParseCareKit();
-    /* if (this.shouldAudit) {
+    if (this.shouldAudit) {
+      console.log("%%%%%%%");
       await setAuditClassLevelPermissions();
-    } */
+      console.log("$$$$$$$");
+    }
     await createIndexes();
   }, delayForCreatingIndexes);
 }
@@ -523,8 +525,9 @@ const createIndexes = async () => {
   return Promise.resolve({});
 }
 
-const init = (server) => {
+const init = (server, shouldAudit = true) => {
   this.server = server;
+  this.shouldAudit = shouldAudit;
   setup();
 }
 
