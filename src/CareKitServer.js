@@ -537,3 +537,5 @@ class CareKitServer {
     return Promise.resolve({});
   }
 }
+
+module.exports = CareKitServer;

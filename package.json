@@ -37,7 +37,8 @@
     "jasmine": "4.5.0",
     "madge": "5.0.1",
     "nyc": "15.1.0",
-    "typescript": "4.9.4"
+    "typescript": "4.9.4",
+    "parse-server": "5.4.0"
   },
   "scripts": {
     "build": "babel src --out-dir lib --source-maps",
