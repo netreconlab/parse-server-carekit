@@ -23,9 +23,9 @@ class CareKitServer {
   async setup(delayForCreatingIndexes = 3000) {
     await new Promise(resolve => setTimeout(resolve, delayForCreatingIndexes));
     await this.ensureClassDefaultFieldsForParseCareKit();
-    if (this.shouldAudit) {
+    /* if (this.shouldAudit) {
       await this.setAuditClassLevelPermissions();
-    }
+    } */
     await this.createIndexes();
   }
 
