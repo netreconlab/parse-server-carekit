@@ -1,4 +1,5 @@
-const { init: ParseAuditor } = require('parse-auditor');
+// const { init: ParseAuditor } = require('parse-auditor');
+const ParseAuditor = require('./node_modules/parse-auditor/src/index.js');
 
 /**
    * @function setup
@@ -381,10 +382,6 @@ const createIndexes = async () => {
   } catch(error) { console.log(error); }
 
   try {
-    await adapter.ensureIndex('Patient_Audit', schema, ['createdAt'], 'Patient_Audit' + indexCreatedAtPostfix, false)
-  } catch(error) { console.log(error); }
-
-  try {
     await adapter.ensureIndex('Contact', versionedSchema, ['entityId'], 'Contact' + indexEntityIdPostfix, false)
   } catch(error) { console.log(error); }
 
@@ -402,10 +399,6 @@ const createIndexes = async () => {
 
   try {
     await adapter.ensureIndex('Contact', versionedSchema, ['logicalClock'], 'Contact' + indexLogicalClockPostfix, false)
-  } catch(error) { console.log(error); }
-
-  try {
-    await adapter.ensureIndex('Contact_Audit', schema, ['createdAt'], 'Contact_Audit' + indexCreatedAtPostfix, false)
   } catch(error) { console.log(error); }
 
   try {
@@ -429,10 +422,6 @@ const createIndexes = async () => {
   } catch(error) { console.log(error); }
 
   try {
-    await adapter.ensureIndex('CarePlan_Audit', schema, ['createdAt'], 'CarePlan_Audit' + indexCreatedAtPostfix, false)
-  } catch(error) { console.log(error); }
-
-  try {
     await adapter.ensureIndex('Task', versionedSchema, ['entityId'], 'Task' + indexEntityIdPostfix, false)
   } catch(error) { console.log(error); }
 
@@ -450,10 +439,6 @@ const createIndexes = async () => {
 
   try {
     await adapter.ensureIndex('Task', versionedSchema, ['logicalClock'], 'Task' + indexLogicalClockPostfix, false)
-  } catch(error) { console.log(error); }
-
-  try {
-    await adapter.ensureIndex('Task_Audit', schema, ['createdAt'], 'Task_Audit' + indexCreatedAtPostfix, false)
   } catch(error) { console.log(error); }
 
   try {
@@ -477,10 +462,6 @@ const createIndexes = async () => {
   } catch(error) { console.log(error); }
 
   try {
-    await adapter.ensureIndex('HealthKitTask_Audit', schema, ['createdAt'], 'HealthKitTask_Audit' + indexCreatedAtPostfix, false)
-  } catch(error) { console.log(error); }
-
-  try {
     await adapter.ensureIndex('Outcome', versionedSchema, ['entityId'], 'Outcome' + indexEntityIdPostfix, false)
   } catch(error) { console.log(error); }
 
@@ -497,10 +478,6 @@ const createIndexes = async () => {
   } catch(error) { console.log(error); }
 
   try {
-    await adapter.ensureIndex('Outcome_Audit', schema, ['createdAt'], 'Outcome_Audit' + indexCreatedAtPostfix, false)
-  } catch(error) { console.log(error); }
-
-  try {
     await adapter.ensureUniqueness('Clock', schema, ['uuid'])
   } catch(error) { console.log(error); }
 
@@ -509,12 +486,38 @@ const createIndexes = async () => {
   } catch(error) { console.log(error); }
 
   try {
-    await adapter.ensureIndex('Clock_Audit', schema, ['createdAt'], 'Clock_Audit' + indexCreatedAtPostfix, false)
-  } catch(error) { console.log(error); }
-
-  try {
     await adapter.ensureIndex('_User', schema, ['createdAt'], '_User' + indexCreatedAtPostfix, false)
   } catch(error) { console.log(error); }
+
+  if (this.shouldAudit) {
+    try {
+      await adapter.ensureIndex('Contact_Audit', schema, ['createdAt'], 'Contact_Audit' + indexCreatedAtPostfix, false)
+    } catch(error) { console.log(error); }
+
+    try {
+      await adapter.ensureIndex('Clock_Audit', schema, ['createdAt'], 'Clock_Audit' + indexCreatedAtPostfix, false)
+    } catch(error) { console.log(error); }
+
+    try {
+      await adapter.ensureIndex('Outcome_Audit', schema, ['createdAt'], 'Outcome_Audit' + indexCreatedAtPostfix, false)
+    } catch(error) { console.log(error); }
+
+    try {
+      await adapter.ensureIndex('HealthKitTask_Audit', schema, ['createdAt'], 'HealthKitTask_Audit' + indexCreatedAtPostfix, false)
+    } catch(error) { console.log(error); }
+
+    try {
+      await adapter.ensureIndex('Task_Audit', schema, ['createdAt'], 'Task_Audit' + indexCreatedAtPostfix, false)
+    } catch(error) { console.log(error); }
+
+    try {
+      await adapter.ensureIndex('CarePlan_Audit', schema, ['createdAt'], 'CarePlan_Audit' + indexCreatedAtPostfix, false)
+    } catch(error) { console.log(error); }
+
+    try {
+      await adapter.ensureIndex('Patient_Audit', schema, ['createdAt'], 'Patient_Audit' + indexCreatedAtPostfix, false)
+    } catch(error) { console.log(error); }
+  }
 
   return Promise.resolve({});
 }
