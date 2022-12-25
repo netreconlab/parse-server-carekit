@@ -21,13 +21,12 @@ class CareKitServer {
    * @returns {Promise<Any>} The resolved promise.
   */
   async setup(delayForCreatingIndexes = 3000) {
-    return setTimeout(async function() {
-      await this.ensureClassDefaultFieldsForParseCareKit();
-      if (this.shouldAudit) {
-        await this.setAuditClassLevelPermissions();
-      }
-      await this.createIndexes();
-    }, delayForCreatingIndexes);
+    await new Promise(resolve => setTimeout(resolve, delayForCreatingIndexes));
+    await this.ensureClassDefaultFieldsForParseCareKit();
+    if (this.shouldAudit) {
+      await this.setAuditClassLevelPermissions();
+    }
+    await this.createIndexes();
   }
 
   /**
