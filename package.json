@@ -23,7 +23,7 @@
     "lib"
   ],
   "dependencies": {
-    "parse-auditor": "Blackburn-Labs/parse-auditor#develop"
+    "parse-auditor": "netreconlab/parse-auditor#develop"
   },
   "devDependencies": {
     "@babel/cli": "7.19.3",
