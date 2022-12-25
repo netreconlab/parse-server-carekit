@@ -1,5 +1,5 @@
 // const { init: ParseAuditor } = require('parse-auditor');
-const ParseAuditor = require('./node_modules/parse-auditor/src/index.js');
+const ParseAuditor = require('parse-auditor');
 
 /**
    * @function setup
