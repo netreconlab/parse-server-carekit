@@ -73,6 +73,7 @@ jobs:
         env:
           CI: true
       - name: Prepare codecov
+        if: github.event_name != 'merge_group'
         run: |
           cat .codecov.yml | curl --data-binary @- https://codecov.io/validate
       - uses: codecov/codecov-action@v3
