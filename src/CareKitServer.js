@@ -337,7 +337,7 @@ class CareKitServer {
       await revisionRecordSchema.get();
     } catch(error) {
       try {
-        await patientSchema
+        await revisionRecordSchema
           .addArray('entities')
           .addNumber('logicalClock')
           .addString('vector')
