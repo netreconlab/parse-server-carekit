@@ -46,6 +46,39 @@ class CareKitServer {
     };
 
     /* eslint-disable-next-line no-undef */
+    const clockSchema = new Parse.Schema('Clock');
+    try {
+      await clockSchema.get();
+    } catch(error) {
+      try {
+        await clockSchema
+          .addString('uuid')
+          .addString('vector')
+          .setCLP(clp)
+          .save();
+        console.log("***Success: Clock class created with default fields. Ignore any previous errors about this class***");
+      } catch(error) { console.log(error); }
+    }
+
+    /* eslint-disable-next-line no-undef */
+    const revisionRecordSchema = new Parse.Schema('RevisionRecord');
+    try {
+      await revisionRecordSchema.get();
+    } catch(error) {
+      try {
+        await revisionRecordSchema
+          .addArray('entities')
+          .addNumber('logicalClock')
+          .addString('vector')
+          .addString('clockUUID')
+          .addPointer('clock', 'Clock')
+          .setCLP(clp)
+          .save();
+        console.log("***Success: RevisionRecord class created with default fields. Ignore any previous errors about this class***");
+      } catch(error) { console.log(error); }
+    }
+
+    /* eslint-disable-next-line no-undef */
     const patientSchema = new Parse.Schema('Patient');
     try {
       await patientSchema.get();
@@ -58,6 +91,7 @@ class CareKitServer {
           .addDate('deletedDate')
           .addDate('effectiveDate')
           .addNumber('logicalClock')
+          .addPointer('clock', 'Clock')
           .addObject('timezone')
           .addObject('name')
           .addString('sex')
@@ -94,6 +128,7 @@ class CareKitServer {
           .addDate('deletedDate')
           .addDate('effectiveDate')
           .addNumber('logicalClock')
+          .addPointer('clock', 'Clock')
           .addObject('timezone')
           .addString('title')
           .addString('patientUUID')
@@ -129,6 +164,7 @@ class CareKitServer {
           .addDate('deletedDate')
           .addDate('effectiveDate')
           .addNumber('logicalClock')
+          .addPointer('clock', 'Clock')
           .addObject('timezone')
           .addObject('name')
           .addString('title')
@@ -173,6 +209,7 @@ class CareKitServer {
           .addDate('deletedDate')
           .addDate('effectiveDate')
           .addNumber('logicalClock')
+          .addPointer('clock', 'Clock')
           .addObject('timezone')
           .addString('title')
           .addString('instructions')
@@ -212,6 +249,7 @@ class CareKitServer {
           .addDate('deletedDate')
           .addDate('effectiveDate')
           .addNumber('logicalClock')
+          .addPointer('clock', 'Clock')
           .addObject('timezone')
           .addString('title')
           .addString('instructions')
@@ -252,6 +290,7 @@ class CareKitServer {
           .addDate('effectiveDate')
           .addDate('deletedDate')
           .addNumber('logicalClock')
+          .addPointer('clock', 'Clock')
           .addObject('timezone')
           .addDate('startDate')
           .addDate('endDate')
@@ -290,6 +329,7 @@ class CareKitServer {
           .addDate('effectiveDate')
           .addDate('deletedDate')
           .addNumber('logicalClock')
+          .addPointer('clock', 'Clock')
           .addObject('timezone')
           .addDate('startDate')
           .addDate('endDate')
@@ -313,39 +353,6 @@ class CareKitServer {
           .setCLP(clp)
           .save();
         console.log("***Success: Outcome class created with default fields. Ignore any previous errors about this class***");
-      } catch(error) { console.log(error); }
-    }
-
-    /* eslint-disable-next-line no-undef */
-    const clockSchema = new Parse.Schema('Clock');
-    try {
-      await clockSchema.get();
-    } catch(error) {
-      try {
-        await clockSchema
-          .addString('uuid')
-          .addString('vector')
-          .setCLP(clp)
-          .save();
-        console.log("***Success: Clock class created with default fields. Ignore any previous errors about this class***");
-      } catch(error) { console.log(error); }
-    }
-
-    /* eslint-disable-next-line no-undef */
-    const revisionRecordSchema = new Parse.Schema('RevisionRecord');
-    try {
-      await revisionRecordSchema.get();
-    } catch(error) {
-      try {
-        await revisionRecordSchema
-          .addArray('entities')
-          .addNumber('logicalClock')
-          .addString('vector')
-          .addString('clockUUID')
-          .addPointer('clock', 'Clock')
-          .setCLP(clp)
-          .save();
-        console.log("***Success: RevisionRecord class created with default fields. Ignore any previous errors about this class***");
       } catch(error) { console.log(error); }
     }
   }
