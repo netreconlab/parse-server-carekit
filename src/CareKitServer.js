@@ -73,6 +73,8 @@ class CareKitServer {
           .addObject('schemaVersion')
           .addArray('previousVersionUUIDs')
           .addArray('nextVersionUUIDs')
+          .addArray('previousVersions')
+          .addArray('nextVersions')
           .setCLP(clp)
           .save();
         console.log("***Success: Patient class created with default fields. Ignore any previous errors about this class***");
@@ -106,6 +108,8 @@ class CareKitServer {
           .addObject('schemaVersion')
           .addArray('previousVersionUUIDs')
           .addArray('nextVersionUUIDs')
+          .addArray('previousVersions')
+          .addArray('nextVersions')
           .setCLP(clp)
           .save();
         console.log("***Success: CarePlan class created with default fields. Ignore any previous errors about this class***");
@@ -148,6 +152,8 @@ class CareKitServer {
           .addObject('schemaVersion')
           .addArray('previousVersionUUIDs')
           .addArray('nextVersionUUIDs')
+          .addArray('previousVersions')
+          .addArray('nextVersions')
           .setCLP(clp)
           .save();
         console.log("***Success: Contact class created with default fields. Ignore any previous errors about this class***");
@@ -185,6 +191,8 @@ class CareKitServer {
           .addObject('schemaVersion')
           .addArray('previousVersionUUIDs')
           .addArray('nextVersionUUIDs')
+          .addArray('previousVersions')
+          .addArray('nextVersions')
           .setCLP(clp)
           .save();
         console.log("***Success: Task class created with default fields. Ignore any previous errors about this class***");
@@ -223,6 +231,8 @@ class CareKitServer {
           .addObject('healthKitLinkage')
           .addArray('previousVersionUUIDs')
           .addArray('nextVersionUUIDs')
+          .addArray('previousVersions')
+          .addArray('nextVersions')
           .setCLP(clp)
           .save();
         console.log("***Success: HealthKitTask class created with default fields. Ignore any previous errors about this class***");
@@ -259,6 +269,8 @@ class CareKitServer {
           .addObject('schemaVersion')
           .addArray('previousVersionUUIDs')
           .addArray('nextVersionUUIDs')
+          .addArray('previousVersions')
+          .addArray('nextVersions')
           .setCLP(clp)
           .save();
         console.log("***Success: Outcome class created with default fields. Ignore any previous errors about this class***");
@@ -296,6 +308,8 @@ class CareKitServer {
           .addObject('schemaVersion')
           .addArray('previousVersionUUIDs')
           .addArray('nextVersionUUIDs')
+          .addArray('previousVersions')
+          .addArray('nextVersions')
           .setCLP(clp)
           .save();
         console.log("***Success: Outcome class created with default fields. Ignore any previous errors about this class***");
@@ -316,6 +330,24 @@ class CareKitServer {
         console.log("***Success: Clock class created with default fields. Ignore any previous errors about this class***");
       } catch(error) { console.log(error); }
     }
+
+    /* eslint-disable-next-line no-undef */
+    const revisionRecordSchema = new Parse.Schema('RevisionRecord');
+    try {
+      await revisionRecordSchema.get();
+    } catch(error) {
+      try {
+        await patientSchema
+          .addArray('entities')
+          .addNumber('logicalClock')
+          .addString('vector')
+          .addString('clockUUID')
+          .addPointer('clock', 'Clock')
+          .setCLP(clp)
+          .save();
+        console.log("***Success: Patient class created with default fields. Ignore any previous errors about this class***");
+      } catch(error) { console.log(error); }
+    }
   }
 
   /**
@@ -334,8 +366,8 @@ class CareKitServer {
       protectedFields: { }
     };
     // Don't audit '_Role' as it doesn't work.
-    const modifiedClasses = ['_User', '_Installation', '_Audience', 'Clock', 'Patient', 'CarePlan', 'Contact', 'Task', 'HealthKitTask', 'Outcome', 'HealthKitOutcome'];
-    const accessedClasses = ['_User', '_Installation', '_Audience', 'Clock', 'Patient', 'CarePlan', 'Contact', 'Task', 'HealthKitTask', 'Outcome', 'HealthKitOutcome'];
+    const modifiedClasses = ['_User', '_Installation', '_Audience', 'Clock', 'Patient', 'CarePlan', 'Contact', 'Task', 'HealthKitTask', 'Outcome', 'HealthKitOutcome', 'RevisionRecord'];
+    const accessedClasses = ['_User', '_Installation', '_Audience', 'Clock', 'Patient', 'CarePlan', 'Contact', 'Task', 'HealthKitTask', 'Outcome', 'HealthKitOutcome', 'RevisionRecord'];
     ParseAuditor(modifiedClasses, accessedClasses, { classPostfix: '_Audit', useMasterKey: true, clp: auditCLP });
   }
 
@@ -353,9 +385,22 @@ class CareKitServer {
     const indexCreatedAtPostfix = '_createdAt';
     const indexLogicalClockPostfix = '_logicalClock';
 
-    const schema = {
+    const parseSchema = {
+      fields: {
+        createdAt: { type: 'Date' }
+      },
+    };
+
+    const clockSchema = {
       fields: {
         uuid: { type: 'String' },
+        createdAt: { type: 'Date' }
+      },
+    };
+
+    const revisionSchema = {
+      fields: {
+        clockUUID: { type: 'String' },
         createdAt: { type: 'Date' }
       },
     };
@@ -492,44 +537,60 @@ class CareKitServer {
     } catch(error) { console.log(error); }
 
     try {
-      await adapter.ensureUniqueness('Clock', schema, ['uuid'])
+      await adapter.ensureUniqueness('Clock', clockSchema, ['uuid'])
     } catch(error) { console.log(error); }
 
     try {
-      await adapter.ensureIndex('Clock', schema, ['createdAt'], 'Outcome' + indexCreatedAtPostfix, false)
+      await adapter.ensureIndex('Clock', clockSchema, ['createdAt'], 'Clock' + indexCreatedAtPostfix, false)
     } catch(error) { console.log(error); }
 
     try {
-      await adapter.ensureIndex('_User', schema, ['createdAt'], '_User' + indexCreatedAtPostfix, false)
+      await adapter.ensureUniqueness('RevisionRecord', revisionSchema, ['clockUUID'])
+    } catch(error) { console.log(error); }
+
+    try {
+      await adapter.ensureIndex('RevisionRecord', revisionSchema, ['logicalClock'], 'RevisionRecord' + indexLogicalClockPostfix, false)
+    } catch(error) { console.log(error); }
+
+    try {
+      await adapter.ensureIndex('RevisionRecord', revisionSchema, ['createdAt'], 'RevisionRecord' + indexCreatedAtPostfix, false)
+    } catch(error) { console.log(error); }
+
+    try {
+      await adapter.ensureIndex('_User', parseSchema, ['createdAt'], '_User' + indexCreatedAtPostfix, false)
     } catch(error) { console.log(error); }
 
     if (this.shouldAudit) {
       try {
-        await adapter.ensureIndex('Contact_Audit', schema, ['createdAt'], 'Contact_Audit' + indexCreatedAtPostfix, false)
+        await adapter.ensureIndex('Contact_Audit', versionedSchema, ['createdAt'], 'Contact_Audit' + indexCreatedAtPostfix, false)
       } catch(error) { console.log(error); }
 
       try {
-        await adapter.ensureIndex('Clock_Audit', schema, ['createdAt'], 'Clock_Audit' + indexCreatedAtPostfix, false)
+        await adapter.ensureIndex('Clock_Audit', clockSchema, ['createdAt'], 'Clock_Audit' + indexCreatedAtPostfix, false)
       } catch(error) { console.log(error); }
 
       try {
-        await adapter.ensureIndex('Outcome_Audit', schema, ['createdAt'], 'Outcome_Audit' + indexCreatedAtPostfix, false)
+        await adapter.ensureIndex('RevisionRecord_Audit', revisionSchema, ['createdAt'], 'RevisionRecord_Audit' + indexCreatedAtPostfix, false)
       } catch(error) { console.log(error); }
 
       try {
-        await adapter.ensureIndex('HealthKitTask_Audit', schema, ['createdAt'], 'HealthKitTask_Audit' + indexCreatedAtPostfix, false)
+        await adapter.ensureIndex('Outcome_Audit', versionedSchema, ['createdAt'], 'Outcome_Audit' + indexCreatedAtPostfix, false)
       } catch(error) { console.log(error); }
 
       try {
-        await adapter.ensureIndex('Task_Audit', schema, ['createdAt'], 'Task_Audit' + indexCreatedAtPostfix, false)
+        await adapter.ensureIndex('HealthKitTask_Audit', versionedSchema, ['createdAt'], 'HealthKitTask_Audit' + indexCreatedAtPostfix, false)
       } catch(error) { console.log(error); }
 
       try {
-        await adapter.ensureIndex('CarePlan_Audit', schema, ['createdAt'], 'CarePlan_Audit' + indexCreatedAtPostfix, false)
+        await adapter.ensureIndex('Task_Audit', versionedSchema, ['createdAt'], 'Task_Audit' + indexCreatedAtPostfix, false)
       } catch(error) { console.log(error); }
 
       try {
-        await adapter.ensureIndex('Patient_Audit', schema, ['createdAt'], 'Patient_Audit' + indexCreatedAtPostfix, false)
+        await adapter.ensureIndex('CarePlan_Audit', versionedSchema, ['createdAt'], 'CarePlan_Audit' + indexCreatedAtPostfix, false)
+      } catch(error) { console.log(error); }
+
+      try {
+        await adapter.ensureIndex('Patient_Audit', versionedSchema, ['createdAt'], 'Patient_Audit' + indexCreatedAtPostfix, false)
       } catch(error) { console.log(error); }
     }
 
