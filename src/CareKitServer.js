@@ -345,7 +345,7 @@ class CareKitServer {
           .addPointer('clock', 'Clock')
           .setCLP(clp)
           .save();
-        console.log("***Success: Patient class created with default fields. Ignore any previous errors about this class***");
+        console.log("***Success: RevisionRecord class created with default fields. Ignore any previous errors about this class***");
       } catch(error) { console.log(error); }
     }
   }
