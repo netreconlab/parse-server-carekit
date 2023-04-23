@@ -552,7 +552,7 @@ class CareKitServer {
     } catch(error) { console.log(error); }
 
     try {
-      await adapter.ensureUniqueness('RevisionRecord', revisionSchema, ['clockUUID'])
+      await adapter.ensureIndex('RevisionRecord', revisionSchema, ['clockUUID'])
     } catch(error) { console.log(error); }
 
     try {
