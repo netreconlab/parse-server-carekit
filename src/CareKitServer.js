@@ -53,7 +53,7 @@ class CareKitServer {
       try {
         await clockSchema
           .addString('uuid')
-          .addString('vector')
+          .addString('knowledgeVectorString')
           .setCLP(clp)
           .save();
         console.log("***Success: Clock class created with default fields. Ignore any previous errors about this class***");
@@ -69,7 +69,7 @@ class CareKitServer {
         await revisionRecordSchema
           .addArray('entities')
           .addNumber('logicalClock')
-          .addString('vector')
+          .addString('knowledgeVectorString')
           .addString('clockUUID')
           .addPointer('clock', 'Clock')
           .setCLP(clp)
@@ -266,7 +266,7 @@ class CareKitServer {
           .addString('remoteID')
           .addObject('userInfo')
           .addObject('schemaVersion')
-          .addObject('healthKitLinkage')
+          .addString('healthKitLinkageString')
           .addArray('previousVersionUUIDs')
           .addArray('nextVersionUUIDs')
           .addArray('previousVersions')
