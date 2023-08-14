@@ -29,7 +29,7 @@
     "@babel/cli": "7.22.5",
     "@babel/core": "7.22.5",
     "@babel/eslint-parser": "7.22.9",
-    "@babel/preset-env": "7.22.5",
+    "@babel/preset-env": "7.22.10",
     "@babel/preset-typescript": "7.22.5",
     "@types/jasmine": "4.3.5",
     "eslint": "8.45.0",
